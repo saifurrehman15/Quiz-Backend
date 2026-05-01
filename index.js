@@ -1,9 +1,9 @@
 import express from 'express'
 import "dotenv/config"
-import AUTHROUTE from "./routes/auth/auth.route.js"
-import SUBJECTROUTE from "./routes/subjects/subject.route.js"
-import QUIZROUTE from "./routes/quiz/quiz.route.js"
-import USERROUTE from "./routes/users/user.route.js"
+import AUTHROUTE from "./src/routes/auth/auth.route.js"
+import SUBJECTROUTE from "./src/routes/subjects/subject.route.js"
+import QUIZROUTE from "./src/routes/quiz/quiz.route.js"
+import USERROUTE from "./src/routes/users/user.route.js"
 
 const app = express()
 const port = process.env.port
