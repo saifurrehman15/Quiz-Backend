@@ -27,6 +27,8 @@ app.use(`/${version}/api`, QUIZROUTE)
 // 4) __USER ROUTES__
 app.use(`/${version}/api`, USERROUTE)
 
+console.log("DB URL:", process.env.DATABASE_URL);
+
 app.listen(port, () => {
     console.log(`Example app listening on port ${port} version ${version}!`)
 })
