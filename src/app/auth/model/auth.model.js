@@ -9,9 +9,12 @@ const UserModel = sequelize.define('users', {
     },
     first_name: {
         type: DataTypes.STRING,
+        allowNull: false,
+        defaultValue: ''
     },
     last_name: {
-        type: DataTypes.STRING
+        type: DataTypes.STRING,
+        allowNull: true
     },
     email: {
         type: DataTypes.STRING,
