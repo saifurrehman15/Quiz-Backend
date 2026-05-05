@@ -45,6 +45,9 @@ class AuthService {
             where: { name: 'user' }
         });
 
+        console.log('ROLE',role);
+        
+
         if (!role) {
             return {
                 error: true,
