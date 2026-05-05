@@ -1,9 +1,12 @@
-import UserModel from '../app/users/model/user.model.js'
+import { CheatModel, Role } from '../app/auth/model/auth.model.js'
+import UserModel from '../app/auth/model/auth.model.js'
 import { responseSender } from "../utils/helpers/response-sender.js"
 import jwt from 'jsonwebtoken'
 
 class AuthenticateMiddleware {
     #userModel = UserModel
+    #cheatModel = CheatModel
+
     constructor() {
         this.authenticateUser = this.authenticateUser.bind(this)
     }
@@ -19,7 +22,7 @@ class AuthenticateMiddleware {
             })
 
             const decoded = jwt.verify(token, process.env.AUTH_SECRET)
-console.log(decoded);
+            console.log(decoded);
 
             if (!decoded) {
                 return responseSender(res, 401, {
@@ -32,7 +35,11 @@ console.log(decoded);
 
             const findUser = await this.#userModel.findOne({
                 where: { id: decoded.id },
-                attributes: { exclude: ['password'] }
+                attributes: { exclude: ['password'] },
+                include: [{
+                    model: Role, as: 'roles', attributes: ['id', 'name'],
+                    through: { attributes: [] }
+                }]
             })
 
 
@@ -47,7 +54,13 @@ console.log(decoded);
             const plain = findUser.get({ plain: true })
             delete plain.password
 
-            req.user = plain
+            const foundCheated = await this.#cheatModel.findOne({
+                where: {
+                    user_id: plain?.id
+                }
+            })
+
+            req.user = { ...plain, ...(foundCheated ? { foundCheated } : {}) }
             next()
         } catch (error) {
             console.log('MIDDLEWARE ERROR', error);

@@ -11,6 +11,10 @@ const SubjectModel = sequelize.define('subjects', {
         type: DataTypes.STRING,
         allowNull: false
     },
+    color: {
+        type: DataTypes.STRING,
+        allowNull: true
+    }
 },
     { timestamps: true, underscored: true },
 );

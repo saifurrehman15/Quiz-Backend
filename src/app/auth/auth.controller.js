@@ -38,7 +38,8 @@ class AuthController {
             }
             const payload = {
                 id: result.data.id,
-                email: result.data.email
+                email: result.data.email,
+                roles: result.data?.roles || []
             }
 
             const { access_token, refresh_token } = this.#generateToken(payload)
@@ -48,7 +49,8 @@ class AuthController {
                 data: result.data,
                 token: {
                     access_token,
-                    refresh_token
+                    refresh_token,
+                    expires_in: new Date().toISOString()
                 }
             })
         } catch (error) {
@@ -82,7 +84,8 @@ class AuthController {
             }
             const payload = {
                 id: result.data.id,
-                email: result.data.email
+                email: result.data.email,
+                roles: result.data?.roles || []
             }
 
             const { access_token, refresh_token } = this.#generateToken(payload)
@@ -92,7 +95,7 @@ class AuthController {
                 data: result.data,
                 token: {
                     access_token,
-                    refresh_token
+                    refresh_token,
                 }
             })
         } catch (error) {

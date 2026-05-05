@@ -12,4 +12,8 @@ const loginValidation = Joi.object({
     password: Joi.string().min(6).required()
 });
 
-export { registerValidate, loginValidation }
+const cheatedValidation = Joi.object({
+    reason: Joi.string().min(3).default('Press Key'),
+});
+
+export { registerValidate, loginValidation, cheatedValidation }

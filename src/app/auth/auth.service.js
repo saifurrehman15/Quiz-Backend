@@ -1,17 +1,20 @@
-import UserModel from "./model/auth.model.js"
+import UserModel, { Role, UserRole } from "./model/auth.model.js"
 import bcrypt from "bcryptjs"
 
 class AuthService {
     #userModel = UserModel
+    #roleModel = Role
     constructor() {
-
+        this.login = this.login.bind(this)
+        this.register = this.register.bind(this)
     }
 
     async register(value) {
         const found = await this.#userModel.findOne({
             where: {
                 email: value.email
-            }
+            },
+
         })
         console.log(found);
 
@@ -36,11 +39,41 @@ class AuthService {
             }
         }
 
+
+        const plain = created.get({ plain: true })
+        const [role] = await this.#roleModel.findOrCreate({
+            where: { name: 'user' }
+        });
+
+        if (!role) {
+            return {
+                error: true,
+                message: "Default role not found!",
+                status: 500
+            }
+        }
+
+        await UserRole.create({
+            user_id: plain?.id,
+            role_id: role?.id
+        })
+
+        const found2 = await this.#userModel.findOne({
+            where: {
+                id: plain.id,
+
+            },
+            include: [{
+                model: this.#roleModel, as: 'roles', attributes: ['id', 'name'],
+                through: { attributes: [] }
+            }]
+        });
+        
         return {
             error: false,
             message: "User created successfully!",
             status: 201,
-            data: created
+            data: found2
         }
     }
 
@@ -48,7 +81,11 @@ class AuthService {
         const found = await this.#userModel.findOne({
             where: {
                 email: value.email
-            }
+            },
+            include: [{
+                model: this.#roleModel, as: 'roles', attributes: ['id', 'name'],
+                through: { attributes: [] }
+            }]
         })
 
         if (!found) {
