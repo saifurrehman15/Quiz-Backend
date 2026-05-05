@@ -41,7 +41,7 @@ class AuthService {
 
 
         const plain = created.get({ plain: true })
-        const [role] = await this.#roleModel.findOrCreate({
+        const [role] = await this.#roleModel.findOne({
             where: { name: 'user' }
         });
 
