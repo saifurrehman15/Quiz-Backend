@@ -43,6 +43,8 @@ class AuthController {
             }
 
             const { access_token, refresh_token } = this.#generateToken(payload)
+            const accessExpire = new Date(Date.now() + (2 * 60 * 60 * 1000));
+            const refreshExpire = new Date(Date.now() + (1 * 24 * 60 * 60 * 1000));
 
             return responseSender(res, result.status, {
                 message: result.message,
@@ -50,7 +52,8 @@ class AuthController {
                 token: {
                     access_token,
                     refresh_token,
-                    expires_in: new Date().toISOString()
+                    accessExpire,
+                    refreshExpire
                 }
             })
         } catch (error) {
@@ -89,6 +92,8 @@ class AuthController {
             }
 
             const { access_token, refresh_token } = this.#generateToken(payload)
+            const accessExpire = new Date(Date.now() + (2 * 60 * 60 * 1000));
+            const refreshExpire = new Date(Date.now() + (1 * 24 * 60 * 60 * 1000));
 
             return responseSender(res, result.status, {
                 message: result.message,
@@ -96,6 +101,8 @@ class AuthController {
                 token: {
                     access_token,
                     refresh_token,
+                    accessExpire,
+                    refreshExpire
                 }
             })
         } catch (error) {
