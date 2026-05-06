@@ -220,7 +220,7 @@ class QuizService {
             where: { user_id: value?.id },
             offset,
             limit: value?.limit,
-            order: [['created_at', 'DESC']],
+            order: [['createdAt', 'DESC']],
             include: [
                 {
                     model: UserModel,
