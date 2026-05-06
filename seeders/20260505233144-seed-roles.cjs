@@ -11,13 +11,13 @@ module.exports = {
       await queryInterface.bulkInsert('roles', [
         {
           name: 'admin',
-          created_at: Sequelize.NOW,  // ✅ NOW (uppercase)
-          updated_at: Sequelize.NOW   // ✅ NOW (uppercase)
+          created_at: new Date(),  // ✅ Use new Date()
+          updated_at: new Date()   // ✅ Use new Date()
         },
         {
           name: 'user',
-          created_at: Sequelize.NOW,  // ✅ NOW (uppercase)
-          updated_at: Sequelize.NOW   // ✅ NOW (uppercase)
+          created_at: new Date(),  // ✅ Use new Date()
+          updated_at: new Date()   // ✅ Use new Date()
         }
       ]);
       console.log('✅ Roles seeded successfully');
