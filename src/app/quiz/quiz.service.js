@@ -118,7 +118,7 @@ class QuizService {
             },
             include: {
                 model: this.#questionModel,
-                attributes: { exclude: ['createdAt', 'updatedAt'] }
+                attributes: { exclude: ['created_at', 'updated_at'] }
             }
         })
 
@@ -220,7 +220,7 @@ class QuizService {
             where: { user_id: value?.id },
             offset,
             limit: value?.limit,
-            order: [['createdAt', 'DESC']],
+            order: [['created_at', 'DESC']],
             include: [
                 {
                     model: UserModel,
