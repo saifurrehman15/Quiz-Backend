@@ -16,6 +16,16 @@ module.exports = {
       role_id: {
         type: Sequelize.BIGINT,
         allowNull: false
+      },
+      created_at: {
+        type: Sequelize.DATE,
+        allowNull: false,
+        defaultValue: Sequelize.NOW
+      },
+      updated_at: {
+        type: Sequelize.DATE,
+        allowNull: false,
+        defaultValue: Sequelize.NOW
       }
     }
     )
