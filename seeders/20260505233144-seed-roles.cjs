@@ -2,17 +2,33 @@
 
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.bulkInsert('roles', [
-      {
-        name: 'admin',
-      },
-      {
-        name: 'user',
-      }
-    ]);
+    // Check if roles already exist to avoid duplicates
+    const [existingRoles] = await queryInterface.sequelize.query(
+      `SELECT * FROM roles WHERE name IN ('admin', 'user')`
+    );
+    
+    if (existingRoles.length === 0) {
+      await queryInterface.bulkInsert('roles', [
+        {
+          name: 'admin',
+          created_at: Sequelize.NOW,  // ✅ NOW (uppercase)
+          updated_at: Sequelize.NOW   // ✅ NOW (uppercase)
+        },
+        {
+          name: 'user',
+          created_at: Sequelize.NOW,  // ✅ NOW (uppercase)
+          updated_at: Sequelize.NOW   // ✅ NOW (uppercase)
+        }
+      ]);
+      console.log('✅ Roles seeded successfully');
+    } else {
+      console.log('⚠️ Roles already exist, skipping seed');
+    }
   },
 
   async down(queryInterface, Sequelize) {
-    await queryInterface.bulkDelete('roles', null, {});
+    await queryInterface.bulkDelete('roles', {
+      name: ['admin', 'user']
+    });
   }
 };
